@@ -23,11 +23,19 @@ function updatePlayIcon() {
 }
 
 function updateProgress() {
-  return true
+  progress.value = (video.currentTime / video.duration) * 100
+
+  timestamp.textContent = new Date(1000 * video.currentTime).toISOString().substr(11, 8)
 }
 
 function setVideoProgress() {
-   return true
+  const percent = +progress.value / 100
+  video.currentTime = video.duration * percent
+}
+
+function stopVideo() {
+  video.currentTime = 0
+  video.pause()
 }
 
 
