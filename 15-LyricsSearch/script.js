@@ -69,7 +69,6 @@ form.addEventListener('submit', e => {
   e.preventDefault()
 
   const searchTerm = search.value.trim()
-  // console.log(searchTerm)
   if (searchTerm) {
     search.value = ''
     getSongs(`${apiURL}/suggest/${searchTerm}`)
