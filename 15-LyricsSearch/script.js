@@ -20,7 +20,7 @@ async function getSongs(url, proxy = false) {
 
 // Show song and artist in DOM
 function showSongs(songs) {
-  console.log(songs)
+  // console.log(songs)
   result.innerHTML = `
   <ul class="songs">
   ${songs.data.map(song =>
@@ -46,21 +46,18 @@ function showSongs(songs) {
 
 // Show lyrics
 function showLyrics(artist, title, lyrics) {
-  // const lines = lyrics.split('\n')
-  const lines = lyrics.replace(/(\r\n|\n|\r)/g, '<br>')
-  // const lyricContent = lines.map(line => `
-  //   ${line.length > 0 ? `${line}<br>` : `<br>`}
-  // `).join('')
+  const lines = lyrics.replace(/\r\n|\r|\n/g, '<br>')
+
   result.innerHTML = `
     <h2><strong>${artist}</strong> - ${title}</h2>
-    <span>${lines}</span>
+    ${lines}
   `
   more.innerHTML = ''
 }
 
 async function getLyrics(artist, title) {
   const url = `${apiURL}/v1/${artist}/${title}`
-  console.log(url)
+  // console.log(url)
   const res = await fetch(url)
   const data = await res.json(res)
 
@@ -72,7 +69,7 @@ form.addEventListener('submit', e => {
   e.preventDefault()
 
   const searchTerm = search.value.trim()
-  console.log(searchTerm)
+  // console.log(searchTerm)
   if (searchTerm) {
     search.value = ''
     getSongs(`${apiURL}/suggest/${searchTerm}`)
