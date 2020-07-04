@@ -9,12 +9,22 @@
 </head>
 
 <body>
+  <nav>
+    <div class="nav-item"></div>
+    <div class="nav-item"></div>
+    <div class="nav-item"></div>
+  </nav>
+  <div id="settings" class="settings">
+    <label for="breaths-per-min">Breaths per minute</label>
+    <input type="text" id="breaths-per-min">
+    <button id="set-btn">Set</button>
+  </div>
   <h1>Relaxer</h1>
   <div class="container" id="container">
     <div class="circle"></div>
-    <p id="text"></p>
+    <p id="text">Breathe in!</p>
 
-    <div class="pointer-container">
+    <div id="pointer-container" class="pointer-container">
       <span class="pointer"></span>
     </div>
 

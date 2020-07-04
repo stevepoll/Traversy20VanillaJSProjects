@@ -1,26 +1,78 @@
 const container = document.getElementById('container')
 const text = document.getElementById('text')
+const settings = document.getElementById('settings')
+const nav = document.getElementsByTagName('nav')[0]
+const breathsPerMin = document.getElementById('breaths-per-min')
+const setBtn = document.getElementById('set-btn')
+const pointerContainer = document.getElementById('pointer-container')
+console.log(pointerContainer)
 
-const totalTime = 7500
-const breatheTime = (totalTime / 5) * 2
-const holdTime = totalTime / 5
+let totalTime = 12000
+let breatheTime = (totalTime / 5) * 2
+let holdTime = totalTime / 5
+let interval = null
+let holdTimeout = null
+let breatheOutTimeout = null
 
+const root = document.documentElement
+root.style.setProperty('--total-time', totalTime)
+root.style.setProperty('--breathe', breatheTime)
+
+function updateTimes(timeIn) {
+  totalTime = timeIn
+  breatheTime = (totalTime / 5) * 2
+  holdTime = totalTime / 5
+}
 
 function breathAnimation() {
   text.innerText = 'Breathe in!'
-  container.classList.remove('shrink')
-  container.classList.add('grow')
-  
-  setTimeout(() => {
+  container.className = 'container grow'
+  pointerContainer.className = 'pointer-container animate'
+
+  holdTimeout = setTimeout(() => {
     text.innerText = 'Hold'
-    
-    setTimeout(() => {
+
+    breatheOutTimeout = setTimeout(() => {
       text.innerText = 'Breathe out'
-      container.classList.remove('grow')
-      container.classList.add('shrink')
+      container.className = 'container shrink'
     }, holdTime)
   }, breatheTime)
 }
 
-breathAnimation()
-setInterval(breathAnimation, totalTime)
+function start() {
+  breathAnimation()
+  interval = setInterval(breathAnimation, totalTime)
+}
+
+function stop() {
+  clearInterval(interval)
+  clearTimeout(holdTimeout)
+  clearTimeout(breatheOutTimeout)
+  pointerContainer.classList.remove('animate')
+  container.className = 'container'
+  text.innerText = 'Breathe in!'
+}
+
+nav.addEventListener('click', () => {
+  settings.classList.toggle('active')
+  if (settings.classList.contains('active')) {
+    stop()
+  } else {
+    start()
+  }
+})
+
+setBtn.addEventListener('click', () => {
+  stop()
+  const bpm = +breathsPerMin.value
+  if (typeof bpm === 'number') {
+    updateTimes(60 / bpm * 1000)
+    root.style.setProperty('--total-time', totalTime)
+    root.style.setProperty('--breathe', breatheTime)
+
+    settings.classList.remove('active')
+    start()
+  }
+})
+
+// start()
